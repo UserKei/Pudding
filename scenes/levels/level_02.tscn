@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="1_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(720, 32)
+
+[node name="Level02" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Backdrop" type="Polygon2D" parent="Background"]
+color = Color(0.11, 0.08, 0.13, 1)
+polygon = PackedVector2Array(0, 0, 760, 0, 760, 360, 0, 360)
+
+[node name="Geometry" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Geometry"]
+position = Vector2(360, 320)
+
+[node name="GroundVisual" type="Polygon2D" parent="Geometry/Ground"]
+color = Color(0.28, 0.23, 0.34, 1)
+polygon = PackedVector2Array(-360, -16, 360, -16, 360, 16, -360, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="DoorBackToLevel01" parent="Interactables" instance=ExtResource("1_door")]
+position = Vector2(100, 266)
+target_level_path = "res://scenes/levels/level_01.tscn"
+target_spawn_name = "ExitMarker"
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(140, 260)

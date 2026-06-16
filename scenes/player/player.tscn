@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interaction"]
+radius = 42.0
+
+[node name="Player" type="CharacterBody2D" unique_id=573813749]
+script = ExtResource("1_player")
+
+[node name="BodyVisual" type="Polygon2D" parent="." unique_id=191011744]
+color = Color(0.95, 0.7, 0.25, 1)
+polygon = PackedVector2Array(-12, -20, 12, -20, 12, 20, -12, 20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1413856165]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_interaction")
