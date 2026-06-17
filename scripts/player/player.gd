@@ -12,9 +12,16 @@ signal died
 @export var coyote_time := 0.1
 @export var jump_buffer_time := 0.12
 @export_range(0.1, 1.0, 0.05) var jump_cut_multiplier := 0.45
-@export var jump_action := "ui_accept"
-@export var down_action := "ui_down"
+@export var move_left_action := "move_left"
+@export var move_right_action := "move_right"
+@export var jump_action := "jump"
+@export var down_action := "move_down"
 @export var interact_action := "interact"
+@export var dash_action := "dash"
+@export var dash_speed := 320.0
+@export var dash_duration := 0.12
+@export var dash_cooldown := 0.45
+@export var dash_fall_speed_cap := 180.0
 @export_range(1, 32, 1) var one_way_platform_collision_layer := 2
 @export var one_way_drop_duration := 0.18
 
@@ -45,6 +52,11 @@ var nearby_interactables: Array[Node] = []
 var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
 var one_way_drop_timer := 0.0
+var dash_timer := 0.0
+var dash_cooldown_timer := 0.0
+var dash_direction := 1.0
+var air_dash_available := true
+var facing_direction := 1.0
 var body_animation_name := ""
 var body_animation_frame := 0
 var body_animation_elapsed := 0.0
@@ -64,18 +76,29 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	update_one_way_drop_timer(delta)
+	update_dash_timers(delta)
 	update_jump_buffer(delta)
 
-	var input_axis := Input.get_axis("ui_left", "ui_right")
+	var input_axis := Input.get_axis(move_left_action, move_right_action)
 
 	if is_on_floor():
 		coyote_timer = coyote_time
+		if dash_timer <= 0.0:
+			air_dash_available = true
 	else:
 		coyote_timer = maxf(coyote_timer - delta, 0.0)
 
 	if input_axis != 0.0:
+		facing_direction = signf(input_axis)
+		body_visual.flip_h = facing_direction < 0.0
+
+	if Input.is_action_just_pressed(dash_action):
+		try_start_dash(input_axis)
+
+	if dash_timer > 0.0:
+		velocity.x = dash_direction * dash_speed
+	elif input_axis != 0.0:
 		velocity.x = move_toward(velocity.x, input_axis * speed, acceleration * delta)
-		body_visual.flip_h = input_axis < 0.0
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
 
@@ -149,6 +172,11 @@ func reset_motion() -> void:
 	coyote_timer = 0.0
 	jump_buffer_timer = 0.0
 	one_way_drop_timer = 0.0
+	dash_timer = 0.0
+	dash_cooldown_timer = 0.0
+	dash_direction = facing_direction
+	air_dash_available = true
+	body_visual.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	set_collision_mask_value(one_way_platform_collision_layer, true)
 
 
@@ -222,6 +250,43 @@ func start_one_way_drop() -> void:
 	one_way_drop_timer = one_way_drop_duration
 	set_collision_mask_value(one_way_platform_collision_layer, false)
 	velocity.y = maxf(velocity.y, 90.0)
+
+
+func update_dash_timers(delta: float) -> void:
+	if dash_timer > 0.0:
+		dash_timer = maxf(dash_timer - delta, 0.0)
+		if dash_timer == 0.0:
+			body_visual.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+	if dash_cooldown_timer > 0.0:
+		dash_cooldown_timer = maxf(dash_cooldown_timer - delta, 0.0)
+
+
+func try_start_dash(input_axis: float) -> void:
+	if dash_cooldown_timer > 0.0:
+		return
+	if one_way_drop_timer > 0.0:
+		return
+	if not is_on_floor() and not air_dash_available:
+		return
+
+	var next_dash_direction := input_axis
+	if next_dash_direction == 0.0:
+		next_dash_direction = facing_direction
+
+	dash_direction = signf(next_dash_direction)
+	dash_timer = dash_duration
+	dash_cooldown_timer = dash_cooldown
+	if not is_on_floor():
+		air_dash_available = false
+
+	velocity.x = dash_direction * dash_speed
+	if velocity.y > dash_fall_speed_cap:
+		velocity.y = dash_fall_speed_cap
+
+	facing_direction = dash_direction
+	body_visual.flip_h = dash_direction < 0.0
+	body_visual.modulate = Color(0.72, 0.88, 1.0, 1.0)
 
 
 func update_body_animation(input_axis: float, delta: float) -> void:
