@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/collectible.gd" id="1_collectible"]
+[ext_resource type="Texture2D" path="res://assets/game/props/cherries.png" id="2_cherries"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_collectible"]
+radius = 12.0
+
+[node name="Collectible" type="Area2D"]
+script = ExtResource("1_collectible")
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_cherries")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_collectible")

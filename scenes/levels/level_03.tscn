@@ -1,0 +1,124 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level.gd" id="1_level"]
+[ext_resource type="TileSet" path="res://resources/tilesets/terrain_16x16.tres" id="2_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="3_door"]
+[ext_resource type="PackedScene" path="res://scenes/props/spikes.tscn" id="4_spikes"]
+[ext_resource type="PackedScene" path="res://scenes/props/moving_platform_horizontal.tscn" id="5_platform_h"]
+[ext_resource type="PackedScene" path="res://scenes/props/one_way_platform.tscn" id="6_one_way"]
+[ext_resource type="PackedScene" path="res://scenes/props/checkpoint.tscn" id="7_checkpoint"]
+[ext_resource type="PackedScene" path="res://scenes/props/death_zone.tscn" id="8_death_zone"]
+[ext_resource type="PackedScene" path="res://scenes/props/collectible.tscn" id="9_collectible"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(1600, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+size = Vector2(160, 20)
+
+[node name="Level03" type="Node2D"]
+script = ExtResource("1_level")
+level_id = "level_03"
+display_name = "Level 03 - Checkpoints"
+camera_limit_left = 0
+camera_limit_top = 0
+camera_limit_right = 1600
+camera_limit_bottom = 460
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Backdrop" type="Polygon2D" parent="Background"]
+color = Color(0.09, 0.1, 0.13, 1)
+polygon = PackedVector2Array(0, 0, 1600, 0, 1600, 420, 0, 420)
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_tileset")
+
+[node name="Geometry" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Geometry"]
+position = Vector2(800, 340)
+
+[node name="GroundVisual" type="Polygon2D" parent="Geometry/Ground"]
+color = Color(0.23, 0.28, 0.31, 1)
+polygon = PackedVector2Array(-800, -16, 800, -16, 800, 16, -800, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Ground"]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="OneWayIntro" parent="Geometry" instance=ExtResource("6_one_way")]
+position = Vector2(260, 270)
+
+[node name="RewardPlatform" type="StaticBody2D" parent="Geometry"]
+position = Vector2(500, 235)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/RewardPlatform"]
+color = Color(0.35, 0.38, 0.44, 1)
+polygon = PackedVector2Array(-80, -10, 80, -10, 80, 10, -80, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/RewardPlatform"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="ExitPlatform" type="StaticBody2D" parent="Geometry"]
+position = Vector2(1420, 250)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/ExitPlatform"]
+color = Color(0.35, 0.38, 0.44, 1)
+polygon = PackedVector2Array(-80, -10, 80, -10, 80, 10, -80, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/ExitPlatform"]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="SpikeTrapA" parent="Hazards" instance=ExtResource("4_spikes")]
+position = Vector2(760, 315)
+
+[node name="SpikeTrapB" parent="Hazards" instance=ExtResource("4_spikes")]
+position = Vector2(1120, 315)
+
+[node name="MovingPlatforms" type="Node2D" parent="."]
+
+[node name="MidPlatform" parent="MovingPlatforms" instance=ExtResource("5_platform_h")]
+position = Vector2(920, 255)
+travel_offset = Vector2(180, 0)
+speed = 90.0
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="DoorToEnd" parent="Interactables" instance=ExtResource("3_door")]
+position = Vector2(1490, 202)
+target_level_id = "level_end"
+target_spawn_name = "PlayerSpawn"
+
+[node name="Collectibles" type="Node2D" parent="."]
+
+[node name="FruitLow" parent="Collectibles" instance=ExtResource("9_collectible")]
+position = Vector2(430, 300)
+collectible_id = "level_03_fruit_low"
+
+[node name="FruitRewardA" parent="Collectibles" instance=ExtResource("9_collectible")]
+position = Vector2(470, 200)
+collectible_id = "level_03_fruit_reward_a"
+
+[node name="FruitRewardB" parent="Collectibles" instance=ExtResource("9_collectible")]
+position = Vector2(530, 200)
+collectible_id = "level_03_fruit_reward_b"
+
+[node name="FruitExit" parent="Collectibles" instance=ExtResource("9_collectible")]
+position = Vector2(1360, 210)
+collectible_id = "level_03_fruit_exit"
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(120, 280)
+
+[node name="MidCheckpoint" parent="SpawnPoints" instance=ExtResource("7_checkpoint")]
+position = Vector2(640, 280)
+
+[node name="Bounds" type="Node2D" parent="."]
+
+[node name="DeathZone" parent="Bounds" instance=ExtResource("8_death_zone")]
+position = Vector2(800, 450)
+scale = Vector2(1.25, 1)

@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="1_door"]
+[ext_resource type="Script" path="res://scripts/levels/level.gd" id="2_level"]
+[ext_resource type="TileSet" path="res://resources/tilesets/terrain_16x16.tres" id="3_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/props/death_zone.tscn" id="4_death_zone"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(720, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform_wide"]
+size = Vector2(180, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform_small"]
+size = Vector2(120, 20)
+
+[node name="Level01" type="Node2D" unique_id=376420402]
+script = ExtResource("2_level")
+level_id = "level_01"
+display_name = "Level 01 - First Steps"
+camera_limit_left = 0
+camera_limit_top = 0
+camera_limit_right = 760
+camera_limit_bottom = 420
+
+[node name="Background" type="Node2D" parent="." unique_id=1629232303]
+
+[node name="Backdrop" type="Polygon2D" parent="Background" unique_id=1270955442]
+color = Color(0.08, 0.1, 0.14, 1)
+polygon = PackedVector2Array(0, 0, 760, 0, 760, 360, 0, 360)
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+tile_set = ExtResource("3_tileset")
+
+[node name="Geometry" type="Node2D" parent="." unique_id=1316265827]
+
+[node name="Ground" type="StaticBody2D" parent="Geometry" unique_id=392402941]
+position = Vector2(360, 320)
+
+[node name="GroundVisual" type="Polygon2D" parent="Geometry/Ground" unique_id=412720183]
+color = Color(0.25, 0.28, 0.32, 1)
+polygon = PackedVector2Array(-360, -16, 360, -16, 360, 16, -360, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Ground" unique_id=636843152]
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="Platform01" type="StaticBody2D" parent="Geometry" unique_id=441017693]
+position = Vector2(370, 245)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/Platform01" unique_id=2080566564]
+color = Color(0.36, 0.42, 0.48, 1)
+polygon = PackedVector2Array(-90, -10, 90, -10, 90, 10, -90, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Platform01" unique_id=1130199792]
+shape = SubResource("RectangleShape2D_platform_wide")
+
+[node name="Platform02" type="StaticBody2D" parent="Geometry" unique_id=1980328755]
+position = Vector2(610, 190)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/Platform02" unique_id=556199775]
+color = Color(0.36, 0.42, 0.48, 1)
+polygon = PackedVector2Array(-60, -10, 60, -10, 60, 10, -60, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Platform02" unique_id=1154044911]
+shape = SubResource("RectangleShape2D_platform_small")
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="DoorToLevel02" parent="Interactables" instance=ExtResource("1_door")]
+position = Vector2(690, 266)
+target_level_id = "level_02"
+target_spawn_name = "PlayerSpawn"
+
+[node name="Collectibles" type="Node2D" parent="."]
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=2013080600]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints" unique_id=225427505]
+position = Vector2(120, 260)
+
+[node name="ExitMarker" type="Marker2D" parent="SpawnPoints" unique_id=1825264878]
+position = Vector2(690, 280)
+
+[node name="Bounds" type="Node2D" parent="."]
+
+[node name="DeathZone" parent="Bounds" instance=ExtResource("4_death_zone")]
+position = Vector2(380, 420)

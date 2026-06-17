@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq3n6uj4wysv"]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/level_01.tscn" id="1_level_01"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://bb51mbt64wdv3" path="res://scripts/main.gd" id="3_main"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
+
+[node name="Main" type="Node2D" unique_id=895617377]
+script = ExtResource("3_main")
+initial_level_scene = ExtResource("1_level_01")
+
+[node name="LevelContainer" type="Node2D" parent="." unique_id=266517297]
+
+[node name="Player" parent="." unique_id=439878578 instance=ExtResource("2_player")]
+position = Vector2(120, 260)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1822631566]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]
