@@ -71,7 +71,10 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(interact_action):
-		interact_with_nearest()
+		if is_dialogue_active():
+			return
+		if interact_with_nearest():
+			get_viewport().set_input_as_handled()
 
 
 func _physics_process(delta: float) -> void:
@@ -116,12 +119,21 @@ func _physics_process(delta: float) -> void:
 	update_body_animation(input_axis, delta)
 
 
-func interact_with_nearest() -> void:
+func interact_with_nearest() -> bool:
 	var interactable := get_nearest_interactable()
 	if interactable == null:
-		return
+		return false
 
 	interactable.interact(self)
+	return true
+
+
+func is_dialogue_active() -> bool:
+	for dialogue_box in get_tree().get_nodes_in_group("dialogue_box"):
+		if dialogue_box.has_method("is_active") and dialogue_box.is_active():
+			return true
+
+	return false
 
 
 func get_nearest_interactable() -> Node:

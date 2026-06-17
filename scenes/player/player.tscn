@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/game/player/ninja_frog/idle.png" id="2_idle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(24, 40)
+size = Vector2(22, 30)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interaction"]
 radius = 42.0
@@ -21,6 +21,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1413856165]
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="InteractionArea" type="Area2D" parent="."]

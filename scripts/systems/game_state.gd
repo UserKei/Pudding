@@ -1,6 +1,7 @@
 extends Node
 
 signal level_changed(level_id: String, display_name: String)
+signal room_changed(room_id: String)
 signal checkpoint_changed(spawn_name: String)
 signal collectibles_changed(count: int)
 signal death_count_changed(count: int)
@@ -8,6 +9,7 @@ signal pause_changed(is_paused: bool)
 
 var current_level_id := ""
 var current_level_name := ""
+var current_room_id := ""
 var current_spawn_name := ""
 var current_checkpoint_name := ""
 var collectible_count := 0
@@ -18,12 +20,14 @@ var collected_ids: Dictionary = {}
 func reset_run() -> void:
 	current_level_id = ""
 	current_level_name = ""
+	current_room_id = ""
 	current_spawn_name = ""
 	current_checkpoint_name = ""
 	collectible_count = 0
 	death_count = 0
 	collected_ids.clear()
 	level_changed.emit(current_level_id, current_level_name)
+	room_changed.emit(current_room_id)
 	checkpoint_changed.emit(current_checkpoint_name)
 	collectibles_changed.emit(collectible_count)
 	death_count_changed.emit(death_count)
@@ -32,9 +36,19 @@ func reset_run() -> void:
 func enter_level(level_id: String, display_name: String, spawn_name: String) -> void:
 	current_level_id = level_id
 	current_level_name = display_name
+	current_room_id = ""
 	current_spawn_name = spawn_name
 	current_checkpoint_name = ""
 	level_changed.emit(current_level_id, current_level_name)
+	room_changed.emit(current_room_id)
+	checkpoint_changed.emit(current_checkpoint_name)
+
+
+func enter_room(room_id: String, spawn_name: String) -> void:
+	current_room_id = room_id
+	current_spawn_name = spawn_name
+	current_checkpoint_name = ""
+	room_changed.emit(current_room_id)
 	checkpoint_changed.emit(current_checkpoint_name)
 
 
