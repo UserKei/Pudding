@@ -18,18 +18,43 @@ signal died
 @export_range(1, 32, 1) var one_way_platform_collision_layer := 2
 @export var one_way_drop_duration := 0.18
 
-@onready var body_visual: Polygon2D = $BodyVisual
+const PLAYER_FRAME_SIZE := Vector2(32.0, 32.0)
+const PLAYER_ANIMATION_TEXTURES := {
+	"idle": preload("res://assets/game/player/ninja_frog/idle.png"),
+	"run": preload("res://assets/game/player/ninja_frog/run.png"),
+	"jump": preload("res://assets/game/player/ninja_frog/jump.png"),
+	"fall": preload("res://assets/game/player/ninja_frog/fall.png"),
+}
+const PLAYER_ANIMATION_FRAMES := {
+	"idle": 11,
+	"run": 12,
+	"jump": 1,
+	"fall": 1,
+}
+const PLAYER_ANIMATION_FPS := {
+	"idle": 10.0,
+	"run": 14.0,
+	"jump": 1.0,
+	"fall": 1.0,
+}
+
+@onready var body_visual: Sprite2D = $BodyVisual
 @onready var interaction_area: Area2D = $InteractionArea
 
 var nearby_interactables: Array[Node] = []
 var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
 var one_way_drop_timer := 0.0
+var body_animation_name := ""
+var body_animation_frame := 0
+var body_animation_elapsed := 0.0
 
 
 func _ready() -> void:
 	interaction_area.area_entered.connect(_on_interaction_area_entered)
 	interaction_area.area_exited.connect(_on_interaction_area_exited)
+	body_visual.region_enabled = true
+	set_body_animation("idle")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -50,7 +75,7 @@ func _physics_process(delta: float) -> void:
 
 	if input_axis != 0.0:
 		velocity.x = move_toward(velocity.x, input_axis * speed, acceleration * delta)
-		body_visual.scale.x = sign(input_axis)
+		body_visual.flip_h = input_axis < 0.0
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
 
@@ -65,6 +90,7 @@ func _physics_process(delta: float) -> void:
 	try_consume_jump_buffer()
 
 	move_and_slide()
+	update_body_animation(input_axis, delta)
 
 
 func interact_with_nearest() -> void:
@@ -195,3 +221,47 @@ func start_one_way_drop() -> void:
 	one_way_drop_timer = one_way_drop_duration
 	set_collision_mask_value(one_way_platform_collision_layer, false)
 	velocity.y = maxf(velocity.y, 90.0)
+
+
+func update_body_animation(input_axis: float, delta: float) -> void:
+	var next_animation := "idle"
+	if not is_on_floor():
+		next_animation = "jump" if velocity.y < 0.0 else "fall"
+	elif input_axis != 0.0:
+		next_animation = "run"
+
+	set_body_animation(next_animation)
+	advance_body_animation(delta)
+
+
+func set_body_animation(animation_name: String) -> void:
+	if body_animation_name == animation_name:
+		return
+
+	body_animation_name = animation_name
+	body_animation_frame = 0
+	body_animation_elapsed = 0.0
+	body_visual.texture = PLAYER_ANIMATION_TEXTURES[body_animation_name]
+	update_body_animation_frame()
+
+
+func advance_body_animation(delta: float) -> void:
+	var frame_count: int = PLAYER_ANIMATION_FRAMES[body_animation_name]
+	if frame_count <= 1:
+		return
+
+	body_animation_elapsed += delta
+	var frame_duration: float = 1.0 / PLAYER_ANIMATION_FPS[body_animation_name]
+	while body_animation_elapsed >= frame_duration:
+		body_animation_elapsed -= frame_duration
+		body_animation_frame = (body_animation_frame + 1) % frame_count
+		update_body_animation_frame()
+
+
+func update_body_animation_frame() -> void:
+	body_visual.region_rect = Rect2(
+		body_animation_frame * PLAYER_FRAME_SIZE.x,
+		0.0,
+		PLAYER_FRAME_SIZE.x,
+		PLAYER_FRAME_SIZE.y
+	)

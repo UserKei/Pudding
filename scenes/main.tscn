@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cq3n6uj4wysv"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/level_01.tscn" id="1_level_01"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://scripts/main.gd" id="3_main"]
+[ext_resource type="Script" uid="uid://bb51mbt64wdv3" path="res://scripts/main.gd" id="3_main"]
 
 [node name="Main" type="Node2D" unique_id=895617377]
 script = ExtResource("3_main")

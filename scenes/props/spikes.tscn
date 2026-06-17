@@ -1,6 +1,7 @@
-[gd_scene format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/props/spikes.gd" id="1_spikes"]
+[ext_resource type="Texture2D" path="res://assets/game/props/spikes_idle.png" id="2_spikes_idle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spikes"]
 size = Vector2(96, 18)
@@ -8,9 +9,37 @@ size = Vector2(96, 18)
 [node name="Spikes" type="Area2D" unique_id=610833909]
 script = ExtResource("1_spikes")
 
-[node name="SpikeVisual" type="Polygon2D" parent="." unique_id=1761283159]
-color = Color(0.86, 0.16, 0.18, 1)
-polygon = PackedVector2Array(-48, 9, -40, -9, -32, 9, -24, -9, -16, 9, -8, -9, 0, 9, 8, -9, 16, 9, 24, -9, 32, 9, 40, -9, 48, 9)
+[node name="SpikeVisual" type="Node2D" parent="." unique_id=1761283159]
+
+[node name="Spike01" type="Sprite2D" parent="SpikeVisual"]
+texture_filter = 1
+position = Vector2(-40, 0)
+texture = ExtResource("2_spikes_idle")
+
+[node name="Spike02" type="Sprite2D" parent="SpikeVisual"]
+texture_filter = 1
+position = Vector2(-24, 0)
+texture = ExtResource("2_spikes_idle")
+
+[node name="Spike03" type="Sprite2D" parent="SpikeVisual"]
+texture_filter = 1
+position = Vector2(-8, 0)
+texture = ExtResource("2_spikes_idle")
+
+[node name="Spike04" type="Sprite2D" parent="SpikeVisual"]
+texture_filter = 1
+position = Vector2(8, 0)
+texture = ExtResource("2_spikes_idle")
+
+[node name="Spike05" type="Sprite2D" parent="SpikeVisual"]
+texture_filter = 1
+position = Vector2(24, 0)
+texture = ExtResource("2_spikes_idle")
+
+[node name="Spike06" type="Sprite2D" parent="SpikeVisual"]
+texture_filter = 1
+position = Vector2(40, 0)
+texture = ExtResource("2_spikes_idle")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1213170071]
 position = Vector2(0, 1)

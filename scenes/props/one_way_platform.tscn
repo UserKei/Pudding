@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/game/props/platform_grey_on.png" id="1_platform"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_one_way_platform"]
 size = Vector2(120, 18)
@@ -6,9 +8,27 @@ size = Vector2(120, 18)
 [node name="OneWayPlatform" type="StaticBody2D" groups=["one_way_platform"]]
 collision_layer = 2
 
-[node name="PlatformVisual" type="Polygon2D" parent="."]
-color = Color(0.5, 0.7, 0.54, 1)
-polygon = PackedVector2Array(-60, -9, 60, -9, 60, 9, -60, 9)
+[node name="PlatformVisual" type="Node2D" parent="."]
+
+[node name="Segment01" type="Sprite2D" parent="PlatformVisual"]
+texture_filter = 1
+position = Vector2(-32, 0)
+texture = ExtResource("1_platform")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 8)
+
+[node name="Segment02" type="Sprite2D" parent="PlatformVisual"]
+texture_filter = 1
+texture = ExtResource("1_platform")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 8)
+
+[node name="Segment03" type="Sprite2D" parent="PlatformVisual"]
+texture_filter = 1
+position = Vector2(32, 0)
+texture = ExtResource("1_platform")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_one_way_platform")
