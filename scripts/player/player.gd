@@ -175,6 +175,7 @@ func try_consume_jump_buffer() -> void:
 	if not Input.is_action_pressed(jump_action):
 		cut_jump_short()
 
+	play_sfx("jump")
 	coyote_timer = 0.0
 	jump_buffer_timer = 0.0
 
@@ -265,3 +266,9 @@ func update_body_animation_frame() -> void:
 		PLAYER_FRAME_SIZE.x,
 		PLAYER_FRAME_SIZE.y
 	)
+
+
+func play_sfx(sfx_name: String) -> void:
+	var sfx_player: Node = get_node_or_null("/root/SfxPlayer")
+	if sfx_player != null and sfx_player.has_method("play_sfx"):
+		sfx_player.play_sfx(sfx_name)
