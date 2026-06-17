@@ -11,6 +11,8 @@ extends Node2D
 
 var current_level: Node2D
 var current_level_id := ""
+var current_room: Node2D
+var current_room_id := ""
 var current_spawn_name := ""
 
 
@@ -40,7 +42,11 @@ func change_level(level_scene: PackedScene, spawn_name := "") -> void:
 
 	level_container.add_child(current_level)
 	var level := current_level as Level
+	current_room = level.get_default_room() if level != null else null
+	current_room_id = get_room_id(current_room)
 	var resolved_spawn_name := spawn_name
+	if resolved_spawn_name.is_empty() and current_room != null:
+		resolved_spawn_name = get_room_default_spawn_name(current_room)
 	if resolved_spawn_name.is_empty():
 		resolved_spawn_name = level.default_spawn_name if level != null else default_spawn_name
 
@@ -52,6 +58,8 @@ func change_level(level_scene: PackedScene, spawn_name := "") -> void:
 		display_name,
 		current_spawn_name
 	)
+	if not current_room_id.is_empty():
+		GameState.enter_room(current_room_id, current_spawn_name)
 	apply_camera_limits()
 	move_player_to_spawn(current_spawn_name)
 
@@ -72,6 +80,37 @@ func change_level_by_path(level_path: String, spawn_name := "") -> void:
 		return
 
 	change_level(level_scene, spawn_name)
+
+
+func change_room(room_id: String, spawn_name := "") -> void:
+	var level := current_level as Level
+	if level == null:
+		push_warning("Room transitions require the current level to use the Level script.")
+		return
+
+	var room := level.get_room(room_id)
+	if room == null:
+		push_warning("Room '%s' was not found in the current level." % room_id)
+		return
+
+	var resolved_spawn_name := spawn_name
+	if resolved_spawn_name.is_empty():
+		resolved_spawn_name = get_room_default_spawn_name(room)
+	if resolved_spawn_name.is_empty():
+		push_warning("Room '%s' has no target spawn." % room_id)
+		return
+
+	if get_spawn_point(resolved_spawn_name) == null:
+		push_warning("Room target spawn '%s' was not found." % resolved_spawn_name)
+		return
+
+	current_room = room
+	current_room_id = get_room_id(room)
+	current_spawn_name = resolved_spawn_name
+	GameState.enter_room(current_room_id, current_spawn_name)
+	apply_camera_limits()
+	move_player_to_spawn(current_spawn_name)
+	snap_camera_to_player()
 
 
 func move_player_to_spawn(spawn_name: String) -> void:
@@ -131,6 +170,14 @@ func apply_camera_limits() -> void:
 	if player_camera == null:
 		return
 
+	if current_room != null:
+		var room_limits: Rect2i = current_room.call("get_camera_limits")
+		player_camera.limit_left = room_limits.position.x
+		player_camera.limit_top = room_limits.position.y
+		player_camera.limit_right = room_limits.position.x + room_limits.size.x
+		player_camera.limit_bottom = room_limits.position.y + room_limits.size.y
+		return
+
 	var level := current_level as Level
 	if level == null:
 		return
@@ -139,6 +186,26 @@ func apply_camera_limits() -> void:
 	player_camera.limit_top = level.camera_limit_top
 	player_camera.limit_right = level.camera_limit_right
 	player_camera.limit_bottom = level.camera_limit_bottom
+
+
+func snap_camera_to_player() -> void:
+	if player_camera != null:
+		player_camera.reset_smoothing()
+
+
+func get_room_id(room: Node2D) -> String:
+	if room != null and room.has_method("get_effective_room_id"):
+		return str(room.call("get_effective_room_id"))
+
+	return ""
+
+
+func get_room_default_spawn_name(room: Node2D) -> String:
+	if room == null:
+		return ""
+
+	var spawn_name: Variant = room.get("default_spawn_name")
+	return str(spawn_name) if spawn_name != null else ""
 
 
 func play_sfx(sfx_name: String) -> void:

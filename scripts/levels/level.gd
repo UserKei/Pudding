@@ -4,6 +4,7 @@ class_name Level
 @export var level_id := ""
 @export var display_name := ""
 @export var default_spawn_name := "PlayerSpawn"
+@export var default_room_id := ""
 @export var camera_limit_left := 0
 @export var camera_limit_top := 0
 @export var camera_limit_right := 1280
@@ -29,6 +30,42 @@ func get_spawn_point(spawn_name: String) -> Node2D:
 	var recursive_spawn := find_child(resolved_spawn_name, true, false) as Node2D
 	if recursive_spawn != null:
 		return recursive_spawn
+
+	return null
+
+
+func get_default_room() -> Node2D:
+	if not default_room_id.is_empty():
+		var default_room := get_room(default_room_id)
+		if default_room != null:
+			return default_room
+
+	var rooms := get_node_or_null("Rooms")
+	if rooms == null:
+		return null
+
+	for child in rooms.get_children():
+		var room := child as Node2D
+		if room != null and room.has_method("get_effective_room_id"):
+			return room
+
+	return null
+
+
+func get_room(room_id: String) -> Node2D:
+	if room_id.is_empty():
+		return null
+
+	var rooms := get_node_or_null("Rooms")
+	if rooms != null:
+		for child in rooms.get_children():
+			var room := child as Node2D
+			if room != null and room.has_method("get_effective_room_id") and room.call("get_effective_room_id") == room_id:
+				return room
+
+	var recursive_room := find_child(room_id, true, false) as Node2D
+	if recursive_room != null and recursive_room.has_method("get_effective_room_id"):
+		return recursive_room
 
 	return null
 

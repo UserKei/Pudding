@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/props/solid_block.tscn" id="1_block"]
+
+[node name="GroundBlock" instance=ExtResource("1_block")]
+block_size = Vector2(128, 32)
+block_style = 0
+visual_color = Color(0.31, 0.44, 0.32, 1)

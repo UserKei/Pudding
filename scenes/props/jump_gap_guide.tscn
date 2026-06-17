@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/jump_gap_guide.gd" id="1_guide"]
+
+[node name="JumpGapGuide" type="Node2D"]
+script = ExtResource("1_guide")
+horizontal_tiles = 6
+guide_color = Color(0.95, 0.78, 0.28, 0.75)
