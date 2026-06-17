@@ -1,9 +1,19 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="1_door"]
+[ext_resource type="PackedScene" path="res://scenes/props/spikes.tscn" id="2_spikes"]
+[ext_resource type="PackedScene" path="res://scenes/props/moving_platform_horizontal.tscn" id="3_platform_h"]
+[ext_resource type="PackedScene" path="res://scenes/props/moving_platform_vertical.tscn" id="4_platform_v"]
+[ext_resource type="PackedScene" path="res://scenes/props/one_way_platform.tscn" id="5_one_way"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(720, 32)
+size = Vector2(1280, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform_medium"]
+size = Vector2(140, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform_wide"]
+size = Vector2(180, 20)
 
 [node name="Level02" type="Node2D"]
 
@@ -11,28 +21,78 @@ size = Vector2(720, 32)
 
 [node name="Backdrop" type="Polygon2D" parent="Background"]
 color = Color(0.11, 0.08, 0.13, 1)
-polygon = PackedVector2Array(0, 0, 760, 0, 760, 360, 0, 360)
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 400, 0, 400)
 
 [node name="Geometry" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="Geometry"]
-position = Vector2(360, 320)
+position = Vector2(640, 320)
 
 [node name="GroundVisual" type="Polygon2D" parent="Geometry/Ground"]
 color = Color(0.28, 0.23, 0.34, 1)
-polygon = PackedVector2Array(-360, -16, 360, -16, 360, 16, -360, 16)
+polygon = PackedVector2Array(-640, -16, 640, -16, 640, 16, -640, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
+[node name="OneWayWarmup" parent="Geometry" instance=ExtResource("5_one_way")]
+position = Vector2(255, 260)
+
+[node name="StepPlatform" type="StaticBody2D" parent="Geometry"]
+position = Vector2(575, 265)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/StepPlatform"]
+color = Color(0.35, 0.38, 0.44, 1)
+polygon = PackedVector2Array(-70, -10, 70, -10, 70, 10, -70, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/StepPlatform"]
+shape = SubResource("RectangleShape2D_platform_medium")
+
+[node name="HighPlatform" type="StaticBody2D" parent="Geometry"]
+position = Vector2(910, 235)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/HighPlatform"]
+color = Color(0.35, 0.38, 0.44, 1)
+polygon = PackedVector2Array(-90, -10, 90, -10, 90, 10, -90, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/HighPlatform"]
+shape = SubResource("RectangleShape2D_platform_wide")
+
+[node name="ExitPlatform" type="StaticBody2D" parent="Geometry"]
+position = Vector2(1160, 245)
+
+[node name="PlatformVisual" type="Polygon2D" parent="Geometry/ExitPlatform"]
+color = Color(0.35, 0.38, 0.44, 1)
+polygon = PackedVector2Array(-90, -10, 90, -10, 90, 10, -90, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/ExitPlatform"]
+shape = SubResource("RectangleShape2D_platform_wide")
+
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="DoorBackToLevel01" parent="Interactables" instance=ExtResource("1_door")]
-position = Vector2(100, 266)
+position = Vector2(1200, 197)
 target_level_path = "res://scenes/levels/level_01.tscn"
 target_spawn_name = "ExitMarker"
+
+[node name="Hazards" type="Node2D" parent="."]
+
+[node name="SpikeTrap" parent="Hazards" instance=ExtResource("2_spikes")]
+position = Vector2(430, 295)
+
+[node name="MovingPlatforms" type="Node2D" parent="."]
+
+[node name="HorizontalPlatform" parent="MovingPlatforms" instance=ExtResource("3_platform_h")]
+position = Vector2(705, 245)
+travel_offset = Vector2(170, 0)
+speed = 80.0
+
+[node name="VerticalPlatform" parent="MovingPlatforms" instance=ExtResource("4_platform_v")]
+position = Vector2(1030, 285)
+travel_offset = Vector2(0, -90)
+speed = 65.0
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(140, 260)
+position = Vector2(120, 260)

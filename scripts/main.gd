@@ -5,13 +5,17 @@ extends Node2D
 @export var initial_level_scene: PackedScene
 @export var default_spawn_name := "PlayerSpawn"
 
-@onready var player: Node2D = get_node_or_null(player_path) as Node2D
+@onready var player: Player = get_node_or_null(player_path) as Player
 @onready var level_container: Node2D = get_node_or_null(level_container_path) as Node2D
 
 var current_level: Node2D
+var current_spawn_name := ""
 
 
 func _ready() -> void:
+	if player != null:
+		player.died.connect(respawn_player)
+
 	if initial_level_scene == null:
 		push_error("Main has no initial_level_scene assigned.")
 		return
@@ -33,6 +37,7 @@ func change_level(level_scene: PackedScene, spawn_name := default_spawn_name) ->
 		return
 
 	level_container.add_child(current_level)
+	current_spawn_name = spawn_name
 	move_player_to_spawn(spawn_name)
 
 
@@ -56,6 +61,14 @@ func move_player_to_spawn(spawn_name: String) -> void:
 		return
 
 	player.global_position = spawn_point.global_position
+	player.reset_motion()
+
+
+func respawn_player() -> void:
+	if current_spawn_name.is_empty():
+		current_spawn_name = default_spawn_name
+
+	move_player_to_spawn(current_spawn_name)
 
 
 func get_spawn_point(spawn_name: String) -> Marker2D:

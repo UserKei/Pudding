@@ -9,6 +9,7 @@ size = Vector2(24, 40)
 radius = 42.0
 
 [node name="Player" type="CharacterBody2D" unique_id=573813749]
+collision_mask = 3
 script = ExtResource("1_player")
 
 [node name="BodyVisual" type="Polygon2D" parent="." unique_id=191011744]

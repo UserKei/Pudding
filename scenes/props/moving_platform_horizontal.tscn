@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/props/moving_platform.gd" id="1_iom8x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+size = Vector2(104, 20)
+
+[node name="MovingPlatformHorizontal" type="AnimatableBody2D" unique_id=183719854]
+script = ExtResource("1_iom8x")
+
+[node name="PlatformVisual" type="Polygon2D" parent="." unique_id=1711640731]
+color = Color(0.42, 0.58, 0.66, 1)
+polygon = PackedVector2Array(-52, -10, 52, -10, 52, 10, -52, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1563624796]
+shape = SubResource("RectangleShape2D_platform")
