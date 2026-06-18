@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/props/death_zone.gd" id="1_death_zone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_death_zone"]
+resource_local_to_scene = true
 size = Vector2(1280, 64)
 
 [node name="DeathZone" type="Area2D"]

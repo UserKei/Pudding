@@ -3,6 +3,7 @@ class_name RoomTransition
 
 @export var target_room_id := ""
 @export var target_spawn_name := ""
+@export var relocate_player := false
 @export var active := true
 @export var one_shot := false
 
@@ -29,4 +30,4 @@ func _on_body_entered(body: Node2D) -> void:
 		triggered = true
 		monitoring = false
 
-	main.change_room(target_room_id, target_spawn_name)
+	main.change_room(target_room_id, target_spawn_name, relocate_player)

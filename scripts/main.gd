@@ -4,6 +4,7 @@ extends Node2D
 @export var level_container_path: NodePath = ^"LevelContainer"
 @export var initial_level_scene: PackedScene
 @export var default_spawn_name := "PlayerSpawn"
+@export var detect_room_from_player_position := true
 
 @onready var player: Player = get_node_or_null(player_path) as Player
 @onready var level_container: Node2D = get_node_or_null(level_container_path) as Node2D
@@ -25,6 +26,10 @@ func _ready() -> void:
 		return
 
 	change_level(initial_level_scene, default_spawn_name)
+
+
+func _physics_process(_delta: float) -> void:
+	update_current_room_from_player()
 
 
 func change_level(level_scene: PackedScene, spawn_name := "") -> void:
@@ -62,6 +67,7 @@ func change_level(level_scene: PackedScene, spawn_name := "") -> void:
 		GameState.enter_room(current_room_id, current_spawn_name)
 	apply_camera_limits()
 	move_player_to_spawn(current_spawn_name)
+	update_current_room_from_player(true)
 
 
 func change_level_by_id(level_id: String, spawn_name := "") -> void:
@@ -82,7 +88,7 @@ func change_level_by_path(level_path: String, spawn_name := "") -> void:
 	change_level(level_scene, spawn_name)
 
 
-func change_room(room_id: String, spawn_name := "") -> void:
+func change_room(room_id: String, spawn_name := "", relocate_player := false) -> void:
 	var level := current_level as Level
 	if level == null:
 		push_warning("Room transitions require the current level to use the Level script.")
@@ -96,21 +102,19 @@ func change_room(room_id: String, spawn_name := "") -> void:
 	var resolved_spawn_name := spawn_name
 	if resolved_spawn_name.is_empty():
 		resolved_spawn_name = get_room_default_spawn_name(room)
-	if resolved_spawn_name.is_empty():
+	if resolved_spawn_name.is_empty() and relocate_player:
 		push_warning("Room '%s' has no target spawn." % room_id)
 		return
 
-	if get_spawn_point(resolved_spawn_name) == null:
+	if not resolved_spawn_name.is_empty() and get_spawn_point(resolved_spawn_name) == null:
 		push_warning("Room target spawn '%s' was not found." % resolved_spawn_name)
-		return
+		if relocate_player:
+			return
+		resolved_spawn_name = current_spawn_name
 
-	current_room = room
-	current_room_id = get_room_id(room)
-	current_spawn_name = resolved_spawn_name
-	GameState.enter_room(current_room_id, current_spawn_name)
-	apply_camera_limits()
-	move_player_to_spawn(current_spawn_name)
-	snap_camera_to_player()
+	set_current_room(room, resolved_spawn_name)
+	if relocate_player:
+		move_player_to_spawn(current_spawn_name)
 
 
 func move_player_to_spawn(spawn_name: String) -> void:
@@ -191,6 +195,54 @@ func apply_camera_limits() -> void:
 func snap_camera_to_player() -> void:
 	if player_camera != null:
 		player_camera.reset_smoothing()
+
+
+func update_current_room_from_player(force_check := false) -> void:
+	if not detect_room_from_player_position or current_level == null or player == null:
+		return
+
+	var level := current_level as Level
+	if level == null:
+		return
+
+	if not force_check and is_player_inside_room(current_room):
+		return
+
+	var room := level.get_room_at_position(player.global_position)
+	if room == null or room == current_room:
+		return
+
+	set_current_room(room)
+
+
+func set_current_room(room: Node2D, spawn_name := "") -> void:
+	current_room = room
+	current_room_id = get_room_id(room)
+
+	var resolved_spawn_name := spawn_name
+	if resolved_spawn_name.is_empty():
+		resolved_spawn_name = get_room_default_spawn_name(room)
+	if not resolved_spawn_name.is_empty():
+		current_spawn_name = resolved_spawn_name
+
+	if not current_room_id.is_empty():
+		GameState.enter_room(current_room_id, current_spawn_name)
+
+	apply_camera_limits()
+	snap_camera_to_player()
+
+
+func is_player_inside_room(room: Node2D) -> bool:
+	if player == null or room == null or not room.has_method("get_room_rect"):
+		return false
+
+	var room_rect: Rect2i = room.call("get_room_rect")
+	return (
+		player.global_position.x >= room_rect.position.x
+		and player.global_position.y >= room_rect.position.y
+		and player.global_position.x < room_rect.position.x + room_rect.size.x
+		and player.global_position.y < room_rect.position.y + room_rect.size.y
+	)
 
 
 func get_room_id(room: Node2D) -> String:
