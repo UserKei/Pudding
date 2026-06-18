@@ -70,10 +70,34 @@ func get_room(room_id: String) -> Node2D:
 	return null
 
 
+func get_room_at_position(global_point: Vector2) -> Node2D:
+	var rooms := get_node_or_null("Rooms")
+	if rooms == null:
+		return null
+
+	for child in rooms.get_children():
+		var room := child as Node2D
+		if room != null and room.has_method("get_room_rect"):
+			var room_rect: Rect2i = room.call("get_room_rect")
+			if is_point_inside_rect(global_point, room_rect):
+				return room
+
+	return null
+
+
 func get_camera_limits() -> Rect2i:
 	return Rect2i(
 		camera_limit_left,
 		camera_limit_top,
 		camera_limit_right - camera_limit_left,
 		camera_limit_bottom - camera_limit_top
+	)
+
+
+func is_point_inside_rect(point: Vector2, rect: Rect2i) -> bool:
+	return (
+		point.x >= rect.position.x
+		and point.y >= rect.position.y
+		and point.x < rect.position.x + rect.size.x
+		and point.y < rect.position.y + rect.size.y
 	)

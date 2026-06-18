@@ -47,3 +47,8 @@ text = "Fruit 0"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Deaths 0"
+
+[node name="QChargeLabel" type="Label" parent="Root/MarginContainer/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Q 1"

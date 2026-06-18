@@ -22,6 +22,9 @@ signal died
 @export var dash_duration := 0.12
 @export var dash_cooldown := 0.45
 @export var dash_fall_speed_cap := 180.0
+@export_range(0.05, 1.0, 0.05) var q_glide_gravity_scale := 0.35
+@export var q_glide_fall_speed_cap := 140.0
+@export_range(0.1, 1.0, 0.05) var q_burden_speed_multiplier := 0.55
 @export_range(1, 32, 1) var one_way_platform_collision_layer := 2
 @export var one_way_drop_duration := 0.18
 
@@ -56,6 +59,8 @@ var dash_timer := 0.0
 var dash_cooldown_timer := 0.0
 var dash_direction := 1.0
 var air_dash_available := true
+var q_glide_field_count := 0
+var q_burden_field_count := 0
 var facing_direction := 1.0
 var body_animation_name := ""
 var body_animation_frame := 0
@@ -82,10 +87,10 @@ func _physics_process(delta: float) -> void:
 	update_one_way_drop_timer(delta)
 	update_dash_timers(delta)
 	update_jump_buffer(delta)
+
 	velocity.x -= applied_conveyor_velocity.x
 	applied_conveyor_velocity = Vector2.ZERO
 	var conveyor_velocity := get_floor_conveyor_velocity()
-
 
 	var input_axis := Input.get_axis(move_left_action, move_right_action)
 
@@ -106,7 +111,7 @@ func _physics_process(delta: float) -> void:
 	if dash_timer > 0.0:
 		velocity.x = dash_direction * dash_speed
 	elif input_axis != 0.0:
-		velocity.x = move_toward(velocity.x, input_axis * speed, acceleration * delta)
+		velocity.x = move_toward(velocity.x, input_axis * get_effective_speed(), acceleration * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
 
@@ -115,7 +120,7 @@ func _physics_process(delta: float) -> void:
 		applied_conveyor_velocity = conveyor_velocity
 
 	if not is_on_floor():
-		velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
+		velocity.y = minf(velocity.y + get_effective_gravity() * delta, get_effective_max_fall_speed())
 	elif velocity.y > 0.0:
 		velocity.y = 0.0
 
@@ -198,6 +203,7 @@ func reset_motion() -> void:
 	dash_cooldown_timer = 0.0
 	dash_direction = facing_direction
 	air_dash_available = true
+	clear_q_field_effects()
 	body_visual.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	set_collision_mask_value(one_way_platform_collision_layer, true)
 
@@ -288,6 +294,48 @@ func start_one_way_drop() -> void:
 	one_way_drop_timer = one_way_drop_duration
 	set_collision_mask_value(one_way_platform_collision_layer, false)
 	velocity.y = maxf(velocity.y, 90.0)
+
+
+func enter_q_glide_field() -> void:
+	q_glide_field_count += 1
+
+
+func exit_q_glide_field() -> void:
+	q_glide_field_count = maxi(q_glide_field_count - 1, 0)
+
+
+func enter_q_burden_field() -> void:
+	q_burden_field_count += 1
+
+
+func exit_q_burden_field() -> void:
+	q_burden_field_count = maxi(q_burden_field_count - 1, 0)
+
+
+func clear_q_field_effects() -> void:
+	q_glide_field_count = 0
+	q_burden_field_count = 0
+
+
+func get_effective_speed() -> float:
+	if q_burden_field_count > 0:
+		return speed * q_burden_speed_multiplier
+
+	return speed
+
+
+func get_effective_gravity() -> float:
+	if q_glide_field_count > 0:
+		return gravity * q_glide_gravity_scale
+
+	return gravity
+
+
+func get_effective_max_fall_speed() -> float:
+	if q_glide_field_count > 0:
+		return minf(max_fall_speed, q_glide_fall_speed_cap)
+
+	return max_fall_speed
 
 
 func update_dash_timers(delta: float) -> void:

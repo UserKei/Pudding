@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cq3n6uj4wysv"]
+[gd_scene load_steps=8 format=3 uid="uid://cq3n6uj4wysv"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/level_01.tscn" id="1_level_01"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -6,12 +6,16 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dialogue"]
+[ext_resource type="Script" path="res://scripts/systems/q_ability_manager.gd" id="7_q_manager"]
 
 [node name="Main" type="Node2D" unique_id=895617377]
 script = ExtResource("3_main")
 initial_level_scene = ExtResource("1_level_01")
 
 [node name="LevelContainer" type="Node2D" parent="." unique_id=266517297]
+
+[node name="QAbilityManager" type="Node" parent="."]
+script = ExtResource("7_q_manager")
 
 [node name="Player" parent="." unique_id=439878578 instance=ExtResource("2_player")]
 position = Vector2(120, 260)

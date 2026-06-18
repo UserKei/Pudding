@@ -7,8 +7,10 @@
 [ext_resource type="TileSet" uid="uid://bf3yq7jn1ri3n" path="res://resources/tilesets/terrain_16x16.tres" id="3_tileset"]
 [ext_resource type="PackedScene" path="res://scenes/npcs/npc_base.tscn" id="4_50wog"]
 [ext_resource type="PackedScene" path="res://scenes/props/death_zone.tscn" id="4_death_zone"]
-[ext_resource type="PackedScene" path="res://scenes/props/wall_block.tscn" id="5_kfebt"]
+[ext_resource type="PackedScene" path="res://scenes/props/jump_gap_guide.tscn" id="5_kfebt"]
 [ext_resource type="PackedScene" path="res://scenes/props/room_transition.tscn" id="5_room_transition"]
+[ext_resource type="PackedScene" path="res://scenes/props/spikes.tscn" id="6_ijn0p"]
+[ext_resource type="PackedScene" path="res://scenes/props/q_ability_marker.tscn" id="7_jmes4"]
 
 [node name="Level01" type="Node2D" unique_id=376420402]
 script = ExtResource("2_level")
@@ -21,21 +23,24 @@ camera_limit_bottom = 420
 [node name="Rooms" type="Node2D" parent="." unique_id=120681624]
 
 [node name="Room01" type="Node2D" parent="Rooms" unique_id=1738485232]
+position = Vector2(-4, -80)
 script = ExtResource("3_room")
 room_id = "room_01"
 display_name = "First Steps 01"
+room_size = Vector2i(724, 800)
 
 [node name="Room02" type="Node2D" parent="Rooms" unique_id=511188064]
-position = Vector2(1280, 0)
+position = Vector2(720, -80)
 script = ExtResource("3_room")
 room_id = "room_02"
 display_name = "First Steps 02"
 default_spawn_name = "Room02Spawn"
+room_size = Vector2i(724, 800)
 
 [node name="Background" type="Node2D" parent="." unique_id=1629232303]
 
 [node name="Backdrop" type="Polygon2D" parent="Background" unique_id=1270955442]
-position = Vector2(0, 16)
+position = Vector2(-4, 0)
 color = Color(0.08, 0.1, 0.14, 1)
 polygon = PackedVector2Array(0, 0, 2560, 0, 2560, 720, 0, 720)
 
@@ -51,15 +56,35 @@ position = Vector2(96, 352)
 block_size = Vector2(200, 32)
 
 [node name="GroundBlockRoom02" parent="Geometry" unique_id=918931705 instance=ExtResource("3_qdh5e")]
-position = Vector2(1480, 368)
-block_size = Vector2(400, 32)
+position = Vector2(716, 16)
+block_size = Vector2(200, 32)
 
 [node name="GroundBlock2" parent="Geometry" unique_id=1460070727 instance=ExtResource("3_qdh5e")]
 position = Vector2(76, 112)
-block_size = Vector2(148, 32)
+block_size = Vector2(100, 32)
 
-[node name="WallBlock" parent="Geometry" unique_id=704765304 instance=ExtResource("5_kfebt")]
-position = Vector2(208, 208)
+[node name="GroundBlock3" parent="Geometry" unique_id=113138356 instance=ExtResource("3_qdh5e")]
+position = Vector2(204, 160)
+block_size = Vector2(20, 32)
+
+[node name="GroundBlock5" parent="Geometry" unique_id=1871095223 instance=ExtResource("3_qdh5e")]
+position = Vector2(272, 64)
+block_size = Vector2(120, 32)
+
+[node name="GroundBlock4" parent="Geometry" unique_id=1639109924 instance=ExtResource("3_qdh5e")]
+position = Vector2(496, 16)
+
+[node name="JumpGapGuide" parent="Geometry" unique_id=1905689781 instance=ExtResource("5_kfebt")]
+position = Vector2(560, 32)
+
+[node name="GroundBlock6" parent="Geometry" unique_id=1393577228 instance=ExtResource("3_qdh5e")]
+position = Vector2(896, 64)
+
+[node name="Spikes" parent="Geometry" unique_id=610833909 instance=ExtResource("6_ijn0p")]
+position = Vector2(880, 40)
+
+[node name="QAbilityMarker" parent="Geometry" unique_id=1291521384 instance=ExtResource("7_jmes4")]
+position = Vector2(648, -6)
 
 [node name="Interactables" type="Node2D" parent="." unique_id=734683478]
 
@@ -67,13 +92,13 @@ position = Vector2(208, 208)
 position = Vector2(128, 320)
 
 [node name="DoorToLevel02" parent="Interactables" unique_id=1252587370 instance=ExtResource("1_door")]
-position = Vector2(690, 266)
+position = Vector2(544, -32)
 target_level_id = "level_02"
 
 [node name="RoomTransitions" type="Node2D" parent="." unique_id=1047886048]
 
 [node name="Room01ToRoom02" parent="RoomTransitions" unique_id=1542048268 instance=ExtResource("5_room_transition")]
-position = Vector2(1264, 320)
+position = Vector2(736, -32)
 target_room_id = "room_02"
 target_spawn_name = "Room02Spawn"
 
@@ -87,10 +112,8 @@ position = Vector2(32, 320)
 [node name="Room02Spawn" type="Marker2D" parent="SpawnPoints" unique_id=379466290]
 position = Vector2(1340, 320)
 
-[node name="ExitMarker" type="Marker2D" parent="SpawnPoints" unique_id=1825264878]
-position = Vector2(690, 280)
-
 [node name="Bounds" type="Node2D" parent="." unique_id=342444497]
 
 [node name="DeathZone" parent="Bounds" unique_id=352108340 instance=ExtResource("4_death_zone")]
-position = Vector2(416, 416)
+position = Vector2(592, 416)
+zone_size = Vector2(2000, 64)
