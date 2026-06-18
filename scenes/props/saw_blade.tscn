@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/saw_blade.gd" id="1_saw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_saw"]
+resource_local_to_scene = true
+radius = 15.84
+
+[node name="SawBlade" type="Area2D"]
+script = ExtResource("1_saw")
+
+[node name="BladeVisual" type="Node2D" parent="."]
+
+[node name="Teeth" type="Polygon2D" parent="BladeVisual"]
+color = Color(0.76, 0.78, 0.82, 1)
+polygon = PackedVector2Array(18, 0, 12.5647, 2.49918, 16.6298, 6.8883, 10.6412, 7.10969, 12.7279, 12.7279, 7.10969, 10.6412, 6.8883, 16.6298, 2.49918, 12.5647, 1.10218e-15, 18, -2.49918, 12.5647, -6.8883, 16.6298, -7.10969, 10.6412, -12.7279, 12.7279, -10.6412, 7.10969, -16.6298, 6.8883, -12.5647, 2.49918, -18, 2.20436e-15, -12.5647, -2.49918, -16.6298, -6.8883, -10.6412, -7.10969, -12.7279, -12.7279, -7.10969, -10.6412, -6.8883, -16.6298, -2.49918, -12.5647, -3.30655e-15, -18, 2.49918, -12.5647, 6.8883, -16.6298, 7.10969, -10.6412, 12.7279, -12.7279, 10.6412, -7.10969, 16.6298, -6.8883, 12.5647, -2.49918)
+
+[node name="Core" type="Polygon2D" parent="BladeVisual"]
+color = Color(0.28, 0.31, 0.36, 1)
+polygon = PackedVector2Array(6.84, 0, 6.3202, 2.6178, 4.83661, 4.83661, 2.6178, 6.3202, 4.18834e-16, 6.84, -2.6178, 6.3202, -4.83661, 4.83661, -6.3202, 2.6178, -6.84, 8.37669e-16, -6.3202, -2.6178, -4.83661, -4.83661, -2.6178, -6.3202, -1.2565e-15, -6.84, 2.6178, -6.3202, 4.83661, -4.83661, 6.3202, -2.6178)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_saw")

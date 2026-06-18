@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/conveyor_belt.gd" id="1_conveyor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_conveyor"]
+resource_local_to_scene = true
+size = Vector2(128, 16)
+
+[node name="ConveyorBelt" type="StaticBody2D"]
+script = ExtResource("1_conveyor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_conveyor")

@@ -60,6 +60,7 @@ var facing_direction := 1.0
 var body_animation_name := ""
 var body_animation_frame := 0
 var body_animation_elapsed := 0.0
+var applied_conveyor_velocity := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -81,6 +82,10 @@ func _physics_process(delta: float) -> void:
 	update_one_way_drop_timer(delta)
 	update_dash_timers(delta)
 	update_jump_buffer(delta)
+	velocity.x -= applied_conveyor_velocity.x
+	applied_conveyor_velocity = Vector2.ZERO
+	var conveyor_velocity := get_floor_conveyor_velocity()
+
 
 	var input_axis := Input.get_axis(move_left_action, move_right_action)
 
@@ -104,6 +109,10 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, input_axis * speed, acceleration * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+
+	if dash_timer <= 0.0:
+		velocity.x += conveyor_velocity.x
+		applied_conveyor_velocity = conveyor_velocity
 
 	if not is_on_floor():
 		velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
@@ -181,6 +190,7 @@ func die() -> void:
 
 func reset_motion() -> void:
 	velocity = Vector2.ZERO
+	applied_conveyor_velocity = Vector2.ZERO
 	coyote_timer = 0.0
 	jump_buffer_timer = 0.0
 	one_way_drop_timer = 0.0
@@ -255,6 +265,22 @@ func is_on_one_way_platform() -> bool:
 			return true
 
 	return false
+
+
+func get_floor_conveyor_velocity() -> Vector2:
+	if not is_on_floor():
+		return Vector2.ZERO
+
+	for index in range(get_slide_collision_count()):
+		var collision := get_slide_collision(index)
+		if collision.get_normal().dot(Vector2.UP) < 0.7:
+			continue
+
+		var collider := collision.get_collider()
+		if collider is Node and collider.has_method("get_conveyor_velocity"):
+			return collider.get_conveyor_velocity()
+
+	return Vector2.ZERO
 
 
 func start_one_way_drop() -> void:

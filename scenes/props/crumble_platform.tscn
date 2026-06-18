@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/crumble_platform.gd" id="1_crumble"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+resource_local_to_scene = true
+size = Vector2(96, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trigger"]
+resource_local_to_scene = true
+size = Vector2(96, 10)
+
+[node name="CrumblePlatform" type="StaticBody2D"]
+script = ExtResource("1_crumble")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.55, 0.58, 0.62, 1)
+polygon = PackedVector2Array(-48, -8, 48, -8, 48, 8, -48, 8)
+
+[node name="CrackVisual" type="Line2D" parent="."]
+points = PackedVector2Array(-36, -1, -21.6, 2.8, -4.8, -1.6, 8.64, 3.2, 26.4, -1.2)
+width = 2.0
+default_color = Color(0.25, 0.27, 0.3, 0.85)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="TriggerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_trigger")

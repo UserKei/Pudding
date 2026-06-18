@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/game/props/spikes_idle.png" id="2_spikes_idle"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spikes"]
+resource_local_to_scene = true
 size = Vector2(96, 18)
 
 [node name="Spikes" type="Area2D" unique_id=610833909]
