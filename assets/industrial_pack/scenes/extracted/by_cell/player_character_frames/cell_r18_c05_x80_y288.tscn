@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/industrial_pack/extracted/by_cell/player_character_frames/cell_r18_c05_x80_y288.png" id="1_texture"]
+
+[node name="CellR18C05X80Y288" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_texture")

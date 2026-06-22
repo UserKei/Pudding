@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/industrial_pack/extracted/connected_objects/npc_machine_frames/object_0463_x17_y401_w14_h15.png" id="1_texture"]
+
+[node name="Object0463X17Y401W14H15" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_texture")

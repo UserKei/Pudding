@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b8ivga4t60484"
+
+[deps]
+
+files=["res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.set.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.category.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.relative.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.source.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.grid.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.visible.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.has.translation"]
+
+source_file="res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.csv"
+dest_files=["res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.set.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.category.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.relative.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.source.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.grid.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.visible.translation", "res://assets/industrial_pack/extracted/manifests/industrial_extraction_manifest.has.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
