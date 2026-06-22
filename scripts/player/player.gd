@@ -30,20 +30,20 @@ signal died
 
 const PLAYER_FRAME_SIZE := Vector2(32.0, 32.0)
 const PLAYER_ANIMATION_TEXTURES := {
-	"idle": preload("res://assets/game/player/ninja_frog/idle.png"),
-	"run": preload("res://assets/game/player/ninja_frog/run.png"),
-	"jump": preload("res://assets/game/player/ninja_frog/jump.png"),
-	"fall": preload("res://assets/game/player/ninja_frog/fall.png"),
+	"idle": preload("res://assets/industrial_pack/player/industrial_idle.png"),
+	"run": preload("res://assets/industrial_pack/player/industrial_run.png"),
+	"jump": preload("res://assets/industrial_pack/player/industrial_jump.png"),
+	"fall": preload("res://assets/industrial_pack/player/industrial_fall.png"),
 }
 const PLAYER_ANIMATION_FRAMES := {
-	"idle": 11,
-	"run": 12,
+	"idle": 4,
+	"run": 6,
 	"jump": 1,
 	"fall": 1,
 }
 const PLAYER_ANIMATION_FPS := {
-	"idle": 10.0,
-	"run": 14.0,
+	"idle": 6.0,
+	"run": 10.0,
 	"jump": 1.0,
 	"fall": 1.0,
 }

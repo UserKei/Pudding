@@ -1,28 +1,51 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=42 format=3]
 
-[ext_resource type="PackedScene" path="res://scenes/props/door.tscn" id="1_door"]
-[ext_resource type="PackedScene" path="res://scenes/props/spikes.tscn" id="2_spikes"]
-[ext_resource type="PackedScene" path="res://scenes/props/moving_platform_horizontal.tscn" id="3_platform_h"]
-[ext_resource type="PackedScene" path="res://scenes/props/moving_platform_vertical.tscn" id="4_platform_v"]
-[ext_resource type="PackedScene" path="res://scenes/props/one_way_platform.tscn" id="5_one_way"]
-[ext_resource type="Script" path="res://scripts/levels/level.gd" id="6_level"]
-[ext_resource type="TileSet" path="res://resources/tilesets/terrain_16x16.tres" id="7_tileset"]
-[ext_resource type="PackedScene" path="res://scenes/props/checkpoint.tscn" id="8_checkpoint"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/industrial_block.tscn" id="1_block"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/buttons/safe_button.tscn" id="2_safe_button"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/industrial_spike_strip.tscn" id="3_spikes"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/industrial_door.tscn" id="4_door"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/props/robot_square.tscn" id="5_robot"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/props/screen_panel.tscn" id="6_screen"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/props/warning_panel.tscn" id="7_warning"]
+[ext_resource type="Script" path="res://assets/industrial_pack/scripts/industrial_showcase_level.gd" id="8_showcase"]
 [ext_resource type="PackedScene" path="res://scenes/props/death_zone.tscn" id="9_death_zone"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(1280, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform_medium"]
-size = Vector2(140, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform_wide"]
-size = Vector2(180, 20)
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/buttons/danger_button.tscn" id="10_danger_button"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/buttons/unknown_button.tscn" id="11_unknown_button"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/buttons/goal_button.tscn" id="12_goal_button"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/buttons/forbidden_button.tscn" id="13_forbidden_button"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/architecture_tiles/cell_r00_c05_x80_y0.tscn" id="14_wall_panel_a"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/architecture_tiles/cell_r01_c12_x192_y16.tscn" id="15_wall_panel_b"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/architecture_tiles/cell_r02_c12_x192_y32.tscn" id="16_ceiling_teeth"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/floor_wall_blocks/cell_r08_c00_x0_y128.tscn" id="17_floor_tile_a"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/floor_wall_blocks/cell_r09_c00_x0_y144.tscn" id="18_floor_tile_b"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/pipes_machinery/cell_r04_c11_x176_y64.tscn" id="19_pipe_tile_a"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/pipes_machinery/cell_r07_c12_x192_y112.tscn" id="20_pipe_tile_b"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/buttons_lights/cell_r09_c21_x336_y144.tscn" id="21_button_cell_safe"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/buttons_lights/cell_r10_c22_x352_y160.tscn" id="22_button_cell_forbidden"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/lights_collectibles/cell_r08_c05_x80_y128.tscn" id="23_collectible_light_cell"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/hazards_markers/cell_r13_c06_x96_y208.tscn" id="24_hazard_cell"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/player_character_frames/cell_r16_c00_x0_y256.tscn" id="25_player_cell"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/by_cell/npc_machine_frames/cell_r20_c00_x0_y320.tscn" id="26_npc_cell"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/pipes_machinery/object_0056_x198_y70_w52_h36.tscn" id="27_pipe_cluster"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/pipes_machinery/object_0127_x240_y99_w32_h93.tscn" id="28_pipe_tower"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/pipes_machinery/object_0171_x180_y112_w60_h96.tscn" id="29_wall_machine"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/pipes_machinery/object_0272_x184_y170_w39_h38.tscn" id="30_small_console"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/pipes_machinery/object_0253_x298_y160_w28_h48.tscn" id="31_hanging_panel"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/buttons_lights/object_0245_x336_y147_w32_h29.tscn" id="32_button_cluster"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/lights_collectibles/object_0207_x99_y132_w12_h12.tscn" id="33_light_orb"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/hazards_markers/object_0294_x131_y179_w26_h26.tscn" id="34_warning_diamond"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/hazards_markers/object_0345_x78_y206_w36_h36.tscn" id="35_warning_square"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/hazards_markers/object_0375_x7_y233_w18_h17.tscn" id="36_warning_sign"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/player_character_frames/object_0387_x1_y258_w13_h14.tscn" id="37_player_pose"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/player_character_frames/object_0394_x80_y263_w15_h23.tscn" id="38_player_helper_pose"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/npc_machine_frames/object_0418_x1_y307_w15_h45.tscn" id="39_npc_tall"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/npc_machine_frames/object_0472_x16_y419_w64_h13.tscn" id="40_energy_beam"]
+[ext_resource type="PackedScene" path="res://assets/industrial_pack/scenes/extracted/connected_objects/projectiles_fx_symbols/object_0386_x209_y257_w14_h14.tscn" id="41_fx_orb"]
 
 [node name="Level02" type="Node2D"]
-script = ExtResource("6_level")
+script = ExtResource("8_showcase")
 level_id = "level_02"
-display_name = "Level 02 - Hazards"
+display_name = "Level 02 - Industrial Asset Showcase"
 camera_limit_left = 0
 camera_limit_top = 0
 camera_limit_right = 1280
@@ -31,92 +54,351 @@ camera_limit_bottom = 440
 [node name="Background" type="Node2D" parent="."]
 
 [node name="Backdrop" type="Polygon2D" parent="Background"]
-color = Color(0.11, 0.08, 0.13, 1)
-polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 400, 0, 400)
+color = Color(0.025, 0.029, 0.038, 1)
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 440, 0, 440)
 
-[node name="TileMap" type="TileMapLayer" parent="."]
-tile_set = ExtResource("7_tileset")
+[node name="WallTexture" type="Node2D" parent="Background"]
+
+[node name="BackTile01" parent="Background/WallTexture" instance=ExtResource("14_wall_panel_a")]
+position = Vector2(110, 140)
+scale = Vector2(3, 3)
+modulate = Color(0.34, 0.42, 0.56, 0.38)
+
+[node name="BackTile02" parent="Background/WallTexture" instance=ExtResource("15_wall_panel_b")]
+position = Vector2(190, 142)
+scale = Vector2(3, 3)
+modulate = Color(0.38, 0.46, 0.6, 0.42)
+
+[node name="BackTile03" parent="Background/WallTexture" instance=ExtResource("14_wall_panel_a")]
+position = Vector2(370, 148)
+scale = Vector2(3, 3)
+modulate = Color(0.31, 0.39, 0.52, 0.36)
+
+[node name="BackTile04" parent="Background/WallTexture" instance=ExtResource("15_wall_panel_b")]
+position = Vector2(575, 146)
+scale = Vector2(3, 3)
+modulate = Color(0.36, 0.43, 0.57, 0.4)
+
+[node name="BackTile05" parent="Background/WallTexture" instance=ExtResource("14_wall_panel_a")]
+position = Vector2(785, 148)
+scale = Vector2(3, 3)
+modulate = Color(0.3, 0.38, 0.52, 0.34)
+
+[node name="BackTile06" parent="Background/WallTexture" instance=ExtResource("15_wall_panel_b")]
+position = Vector2(1005, 146)
+scale = Vector2(3, 3)
+modulate = Color(0.36, 0.44, 0.58, 0.4)
+
+[node name="BackTile07" parent="Background/WallTexture" instance=ExtResource("14_wall_panel_a")]
+position = Vector2(1160, 146)
+scale = Vector2(3, 3)
+modulate = Color(0.31, 0.39, 0.53, 0.36)
+
+[node name="BackFloorTile01" parent="Background/WallTexture" instance=ExtResource("17_floor_tile_a")]
+position = Vector2(152, 220)
+scale = Vector2(2.5, 2.5)
+modulate = Color(0.42, 0.48, 0.58, 0.35)
+
+[node name="BackFloorTile02" parent="Background/WallTexture" instance=ExtResource("18_floor_tile_b")]
+position = Vector2(332, 220)
+scale = Vector2(2.5, 2.5)
+modulate = Color(0.44, 0.5, 0.6, 0.38)
+
+[node name="BackFloorTile03" parent="Background/WallTexture" instance=ExtResource("17_floor_tile_a")]
+position = Vector2(724, 225)
+scale = Vector2(2.5, 2.5)
+modulate = Color(0.42, 0.48, 0.58, 0.35)
+
+[node name="BackFloorTile04" parent="Background/WallTexture" instance=ExtResource("18_floor_tile_b")]
+position = Vector2(1100, 220)
+scale = Vector2(2.5, 2.5)
+modulate = Color(0.44, 0.5, 0.6, 0.38)
+
+[node name="WallMachinery" type="Node2D" parent="Background"]
+
+[node name="PipeClusterLeft" parent="Background/WallMachinery" instance=ExtResource("27_pipe_cluster")]
+position = Vector2(285, 118)
+scale = Vector2(1.6, 1.6)
+modulate = Color(0.58, 0.68, 0.82, 0.58)
+
+[node name="PipeTowerLeft" parent="Background/WallMachinery" instance=ExtResource("28_pipe_tower")]
+position = Vector2(430, 178)
+scale = Vector2(1.15, 1.15)
+modulate = Color(0.58, 0.68, 0.82, 0.52)
+
+[node name="MainWallMachine" parent="Background/WallMachinery" instance=ExtResource("29_wall_machine")]
+position = Vector2(636, 187)
+scale = Vector2(1.15, 1.15)
+modulate = Color(0.55, 0.66, 0.8, 0.5)
+
+[node name="HangingPanelRight" parent="Background/WallMachinery" instance=ExtResource("31_hanging_panel")]
+position = Vector2(826, 176)
+scale = Vector2(1.35, 1.35)
+modulate = Color(0.62, 0.72, 0.86, 0.58)
+
+[node name="SmallConsoleRight" parent="Background/WallMachinery" instance=ExtResource("30_small_console")]
+position = Vector2(1045, 226)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.58, 0.68, 0.82, 0.55)
+
+[node name="CeilingTeeth01" parent="Background/WallMachinery" instance=ExtResource("16_ceiling_teeth")]
+position = Vector2(545, 107)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.95, 0.88, 0.58, 0.75)
+
+[node name="CeilingTeeth02" parent="Background/WallMachinery" instance=ExtResource("16_ceiling_teeth")]
+position = Vector2(970, 107)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.95, 0.88, 0.58, 0.75)
+
+[node name="UpperPanelBand" parent="Background" instance=ExtResource("1_block")]
+position = Vector2(640, 58)
+block_size = Vector2(1184, 48)
+block_style = 2
+visual_modulate = Color(0.5, 0.56, 0.7, 0.38)
+
+[node name="Labels" type="Node2D" parent="."]
+
+[node name="Title" type="Label" parent="Labels"]
+position = Vector2(48, 28)
+theme_override_colors/font_color = Color(0.86, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "INDUSTRIAL PACK SHOWCASE"
+
+[node name="Subtitle" type="Label" parent="Labels"]
+position = Vector2(48, 58)
+theme_override_colors/font_color = Color(0.68, 0.76, 0.86, 1)
+theme_override_font_sizes/font_size = 12
+text = "blocks / buttons / hazards / props / exit door"
+
+[node name="ButtonLabel" type="Label" parent="Labels"]
+position = Vector2(250, 285)
+theme_override_colors/font_color = Color(0.76, 0.84, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "button variants"
+
+[node name="HazardLabel" type="Label" parent="Labels"]
+position = Vector2(668, 285)
+theme_override_colors/font_color = Color(1, 0.55, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "hazard strip"
+
+[node name="PropLabel" type="Label" parent="Labels"]
+position = Vector2(870, 258)
+theme_override_colors/font_color = Color(0.76, 0.84, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "props"
+
+[node name="StatusLight" type="Polygon2D" parent="Labels"]
+position = Vector2(44, 98)
+color = Color(0.68, 0.76, 0.86, 1)
+polygon = PackedVector2Array(-7, -7, 7, -7, 7, 7, -7, 7)
+
+[node name="Status" type="Label" parent="Labels"]
+position = Vector2(60, 88)
+theme_override_colors/font_color = Color(0.68, 0.76, 0.86, 1)
+theme_override_font_sizes/font_size = 12
+text = "Ready: walk over or interact with a button."
 
 [node name="Geometry" type="Node2D" parent="."]
 
-[node name="Ground" type="StaticBody2D" parent="Geometry"]
-position = Vector2(640, 320)
+[node name="Floor" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(640, 340)
+block_size = Vector2(1184, 32)
+block_style = 0
 
-[node name="GroundVisual" type="Polygon2D" parent="Geometry/Ground"]
-color = Color(0.28, 0.23, 0.34, 1)
-polygon = PackedVector2Array(-640, -16, 640, -16, 640, 16, -640, 16)
+[node name="LeftWall" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(32, 252)
+block_size = Vector2(32, 176)
+block_style = 2
+visual_modulate = Color(0.8, 0.86, 1, 0.8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/Ground"]
-shape = SubResource("RectangleShape2D_ground")
+[node name="RightWall" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(1248, 252)
+block_size = Vector2(32, 176)
+block_style = 2
+visual_modulate = Color(0.8, 0.86, 1, 0.8)
 
-[node name="OneWayWarmup" parent="Geometry" instance=ExtResource("5_one_way")]
-position = Vector2(255, 260)
+[node name="LowPlatform" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(190, 286)
+block_size = Vector2(128, 16)
+block_style = 1
 
-[node name="StepPlatform" type="StaticBody2D" parent="Geometry"]
-position = Vector2(575, 265)
+[node name="MidPlatform" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(475, 250)
+block_size = Vector2(112, 16)
+block_style = 3
 
-[node name="PlatformVisual" type="Polygon2D" parent="Geometry/StepPlatform"]
-color = Color(0.35, 0.38, 0.44, 1)
-polygon = PackedVector2Array(-70, -10, 70, -10, 70, 10, -70, 10)
+[node name="HazardBridgeLeft" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(628, 318)
+block_size = Vector2(72, 16)
+block_style = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/StepPlatform"]
-shape = SubResource("RectangleShape2D_platform_medium")
+[node name="HazardBridgeRight" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(820, 318)
+block_size = Vector2(72, 16)
+block_style = 1
 
-[node name="HighPlatform" type="StaticBody2D" parent="Geometry"]
-position = Vector2(910, 235)
+[node name="PropPlatform" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(940, 300)
+block_size = Vector2(160, 16)
+block_style = 2
 
-[node name="PlatformVisual" type="Polygon2D" parent="Geometry/HighPlatform"]
-color = Color(0.35, 0.38, 0.44, 1)
-polygon = PackedVector2Array(-90, -10, 90, -10, 90, 10, -90, 10)
+[node name="DoorPlatform" parent="Geometry" instance=ExtResource("1_block")]
+position = Vector2(1168, 326)
+block_size = Vector2(120, 16)
+block_style = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/HighPlatform"]
-shape = SubResource("RectangleShape2D_platform_wide")
+[node name="ExtractedAssetDressing" type="Node2D" parent="."]
 
-[node name="ExitPlatform" type="StaticBody2D" parent="Geometry"]
-position = Vector2(1160, 245)
+[node name="PipeAccentA" parent="ExtractedAssetDressing" instance=ExtResource("19_pipe_tile_a")]
+position = Vector2(450, 226)
+scale = Vector2(1.6, 1.6)
+modulate = Color(0.7, 0.82, 0.96, 0.82)
 
-[node name="PlatformVisual" type="Polygon2D" parent="Geometry/ExitPlatform"]
-color = Color(0.35, 0.38, 0.44, 1)
-polygon = PackedVector2Array(-90, -10, 90, -10, 90, 10, -90, 10)
+[node name="PipeAccentB" parent="ExtractedAssetDressing" instance=ExtResource("20_pipe_tile_b")]
+position = Vector2(800, 294)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.7, 0.82, 0.96, 0.85)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Geometry/ExitPlatform"]
-shape = SubResource("RectangleShape2D_platform_wide")
+[node name="ButtonClusterSample" parent="ExtractedAssetDressing" instance=ExtResource("32_button_cluster")]
+position = Vector2(398, 280)
+scale = Vector2(1.35, 1.35)
+modulate = Color(1, 0.9, 0.95, 0.82)
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="SafeButtonCellSample" parent="ExtractedAssetDressing" instance=ExtResource("21_button_cell_safe")]
+position = Vector2(250, 318)
+scale = Vector2(1.15, 1.15)
+modulate = Color(0.9, 1, 0.95, 0.82)
 
-[node name="DoorBackToLevel01" parent="Interactables" instance=ExtResource("1_door")]
-position = Vector2(1200, 197)
-target_level_id = "level_03"
-target_spawn_name = "PlayerSpawn"
+[node name="ForbiddenButtonCellSample" parent="ExtractedAssetDressing" instance=ExtResource("22_button_cell_forbidden")]
+position = Vector2(550, 318)
+scale = Vector2(1.15, 1.15)
+modulate = Color(1, 0.55, 0.7, 0.82)
+
+[node name="LightOrbLeft" parent="ExtractedAssetDressing" instance=ExtResource("33_light_orb")]
+position = Vector2(138, 294)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.76, 0.92, 1, 0.95)
+
+[node name="LightOrbRight" parent="ExtractedAssetDressing" instance=ExtResource("33_light_orb")]
+position = Vector2(1098, 286)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.76, 0.92, 1, 0.95)
+
+[node name="CollectibleCell" parent="ExtractedAssetDressing" instance=ExtResource("23_collectible_light_cell")]
+position = Vector2(1118, 274)
+scale = Vector2(1.2, 1.2)
+modulate = Color(0.95, 1, 0.72, 0.95)
+
+[node name="WarningDiamondLeft" parent="ExtractedAssetDressing" instance=ExtResource("34_warning_diamond")]
+position = Vector2(646, 284)
+scale = Vector2(0.95, 0.95)
+modulate = Color(1, 0.18, 0.42, 0.9)
+
+[node name="WarningDiamondRight" parent="ExtractedAssetDressing" instance=ExtResource("34_warning_diamond")]
+position = Vector2(804, 284)
+scale = Vector2(0.95, 0.95)
+modulate = Color(1, 0.18, 0.42, 0.9)
+
+[node name="WarningSquareBack" parent="ExtractedAssetDressing" instance=ExtResource("35_warning_square")]
+position = Vector2(724, 300)
+scale = Vector2(1.15, 0.8)
+modulate = Color(1, 0.12, 0.32, 0.2)
+
+[node name="WarningSign" parent="ExtractedAssetDressing" instance=ExtResource("36_warning_sign")]
+position = Vector2(720, 286)
+scale = Vector2(1.25, 1.25)
+modulate = Color(1, 0.88, 0.7, 0.95)
+
+[node name="HazardCellSample" parent="ExtractedAssetDressing" instance=ExtResource("24_hazard_cell")]
+position = Vector2(682, 317)
+scale = Vector2(1.15, 1.15)
+modulate = Color(1, 0.38, 0.52, 0.85)
+
+[node name="PlayerCellSample" parent="ExtractedAssetDressing" instance=ExtResource("25_player_cell")]
+position = Vector2(82, 286)
+scale = Vector2(1.25, 1.25)
+modulate = Color(1, 1, 0.9, 0.82)
+
+[node name="PlayerPoseSample" parent="ExtractedAssetDressing" instance=ExtResource("37_player_pose")]
+position = Vector2(121, 302)
+scale = Vector2(1.45, 1.45)
+modulate = Color(1, 1, 0.92, 0.95)
+
+[node name="PlayerHelperPoseSample" parent="ExtractedAssetDressing" instance=ExtResource("38_player_helper_pose")]
+position = Vector2(180, 264)
+scale = Vector2(1.25, 1.25)
+modulate = Color(0.92, 1, 1, 0.86)
+
+[node name="NpcCellSample" parent="ExtractedAssetDressing" instance=ExtResource("26_npc_cell")]
+position = Vector2(930, 274)
+scale = Vector2(1.15, 1.15)
+modulate = Color(0.8, 0.9, 1, 0.8)
+
+[node name="NpcTallSample" parent="ExtractedAssetDressing" instance=ExtResource("39_npc_tall")]
+position = Vector2(985, 257)
+scale = Vector2(1.1, 1.1)
+modulate = Color(0.82, 0.94, 1, 0.8)
+
+[node name="ExitEnergyBeam" parent="ExtractedAssetDressing" instance=ExtResource("40_energy_beam")]
+position = Vector2(1156, 286)
+scale = Vector2(1.3, 1.3)
+modulate = Color(0.58, 0.92, 1, 0.62)
+
+[node name="ExitFxOrb" parent="ExtractedAssetDressing" instance=ExtResource("41_fx_orb")]
+position = Vector2(1212, 275)
+scale = Vector2(1.4, 1.4)
+modulate = Color(0.55, 1, 0.65, 0.82)
+
+[node name="Buttons" type="Node2D" parent="."]
+
+[node name="SafeButton" parent="Buttons" instance=ExtResource("2_safe_button")]
+position = Vector2(280, 318)
+
+[node name="DangerButton" parent="Buttons" instance=ExtResource("10_danger_button")]
+position = Vector2(340, 318)
+
+[node name="UnknownButton" parent="Buttons" instance=ExtResource("11_unknown_button")]
+position = Vector2(400, 318)
+
+[node name="GoalButton" parent="Buttons" instance=ExtResource("12_goal_button")]
+position = Vector2(460, 318)
+
+[node name="ForbiddenButton" parent="Buttons" instance=ExtResource("13_forbidden_button")]
+position = Vector2(520, 318)
 
 [node name="Hazards" type="Node2D" parent="."]
 
-[node name="SpikeTrap" parent="Hazards" instance=ExtResource("2_spikes")]
-position = Vector2(430, 295)
+[node name="SpikeStrip" parent="Hazards" instance=ExtResource("3_spikes")]
+position = Vector2(724, 319)
+spike_size = Vector2(96, 18)
 
-[node name="MovingPlatforms" type="Node2D" parent="."]
+[node name="Props" type="Node2D" parent="."]
 
-[node name="HorizontalPlatform" parent="MovingPlatforms" instance=ExtResource("3_platform_h")]
-position = Vector2(705, 245)
-travel_offset = Vector2(170, 0)
-speed = 80.0
+[node name="GuideRobot" parent="Props" instance=ExtResource("5_robot")]
+position = Vector2(890, 278)
 
-[node name="VerticalPlatform" parent="MovingPlatforms" instance=ExtResource("4_platform_v")]
-position = Vector2(1030, 285)
-travel_offset = Vector2(0, -90)
-speed = 65.0
+[node name="Screen" parent="Props" instance=ExtResource("6_screen")]
+position = Vector2(950, 268)
 
-[node name="Collectibles" type="Node2D" parent="."]
+[node name="WarningPanel" parent="Props" instance=ExtResource("7_warning")]
+position = Vector2(1010, 268)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="ExitDoor" parent="Interactables" instance=ExtResource("4_door")]
+position = Vector2(1182, 300)
+target_level_id = "level_03"
+target_spawn_name = "PlayerSpawn"
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(120, 260)
-
-[node name="CheckpointBeforeSpikes" parent="SpawnPoints" instance=ExtResource("8_checkpoint")]
-position = Vector2(350, 260)
+position = Vector2(96, 300)
 
 [node name="Bounds" type="Node2D" parent="."]
 
 [node name="DeathZone" parent="Bounds" instance=ExtResource("9_death_zone")]
 position = Vector2(640, 430)
+zone_size = Vector2(1280, 64)

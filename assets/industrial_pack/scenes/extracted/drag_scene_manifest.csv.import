@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bi6c44k0siu8v"
+
+[deps]
+
+files=["res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.Category.translation", "res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.Texture.translation", "res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.Scene.translation"]
+
+source_file="res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.csv"
+dest_files=["res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.Category.translation", "res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.Texture.translation", "res://assets/industrial_pack/scenes/extracted/drag_scene_manifest.Scene.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

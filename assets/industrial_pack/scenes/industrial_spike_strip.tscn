@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://assets/industrial_pack/scripts/industrial_spike_strip.gd" id="1_spikes"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_spikes"]
+resource_local_to_scene = true
+size = Vector2(96, 18)
+
+[node name="IndustrialSpikeStrip" type="Area2D"]
+script = ExtResource("1_spikes")
+
+[node name="SpikeVisual" type="Node2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_spikes")

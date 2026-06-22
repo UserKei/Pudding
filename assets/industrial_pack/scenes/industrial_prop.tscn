@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/industrial_pack/scripts/industrial_atlas_prop.gd" id="1_prop"]
+
+[node name="IndustrialProp" type="Node2D"]
+script = ExtResource("1_prop")
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
